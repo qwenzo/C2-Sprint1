@@ -12,6 +12,7 @@ export interface APIData {
 export interface LoginData {
     username: String;
     password: String;
+    //type: String;
 }
 
 export interface  Product{

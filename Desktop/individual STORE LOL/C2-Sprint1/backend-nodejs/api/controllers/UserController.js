@@ -29,6 +29,7 @@ module.exports.userlogin = function(req, res, next) {
           err: null,
           msg: 'Auth login Successful.',
           data: user
+          
         });
       }
     });

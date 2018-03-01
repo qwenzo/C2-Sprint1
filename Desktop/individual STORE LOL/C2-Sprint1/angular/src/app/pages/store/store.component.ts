@@ -32,11 +32,17 @@ export class StoreComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
+    actions: {
+       add: true,
+       edit: true,
+       delete: true,
+      //columnTitle: 'Actions'
+    },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'number',
+      // },
       name: {
         title: 'Name',
         type: 'string',
@@ -53,10 +59,10 @@ export class StoreComponent implements OnInit {
         title: 'UpdatedAt',
         type: 'string',
       },
-      seller: {
-        title: 'Seller',
-        type: 'string',
-      },
+      // seller: {
+      //   title: 'Seller',
+      //   type: 'string',
+      // },
     },
   };
 
