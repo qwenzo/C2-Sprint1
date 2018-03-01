@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { APIService } from '../../app_services/api.service';
-import { APIData } from '../../app_services/models/api.data.structure'
+import { APIData, Product } from '../../app_services/models/api.data.structure';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -15,14 +15,15 @@ import { Observable } from 'rxjs/Observable';
 export class StoreComponent implements OnInit {
 
   ngOnInit() {
+
   }
 
   settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
+      createButtonContent: '<i class="nb-checkmark" ></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
-      onAdded: true,
+      //onAdded: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
@@ -37,6 +38,8 @@ export class StoreComponent implements OnInit {
       id: {
         title: 'ID',
         type: 'number',
+        editable: false,
+        addable: false,
       },
       name: {
         title: 'Name',
@@ -49,34 +52,79 @@ export class StoreComponent implements OnInit {
       createdAt: {
         title: 'CreatedAt',
         type: 'string',
+        editable: false,
+        addable: false,
       },
       updatedAt: {
         title: 'UpdatedAt',
         type: 'string',
+        editable: false,
+        addable: false,
       },
       seller: {
         title: 'Seller',
         type: 'string',
+        editable: false,
+        addable: false,
       },
     },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  
-  
+
+
 
   constructor(private _apiService: APIService) {
     this._apiService.getProducts().subscribe((apiresponse: APIData)=>{
-      
       this.source.load( apiresponse.data);
-     
-    });    
+    });
+
+    this.source.onAdded().subscribe((productData :Product)=>{
+      var user =localStorage.getItem('currentUser');
+      productData.seller = user;
+    this._apiService.createProduct(productData).subscribe((apiresponse: APIData)=>{
+      console.log(apiresponse);
+      this._apiService.getProducts().subscribe((apiresponse: APIData)=>{
+        this.source.load( apiresponse.data);
+      });
+    });
+  });
+  this.source.onRemoved().subscribe((productData :Product)=>{
+  this._apiService.deleteProduct(productData).subscribe((apiresponse: APIData)=>{
+    console.log(apiresponse);
+    this._apiService.getProducts().subscribe((apiresponse: APIData)=>{
+      this.source.load( apiresponse.data);
+    });
+  });
+});
+
+
+this.source.onUpdated().subscribe((productData :Product)=>{
+this._apiService.updateProduct(productData).subscribe((apiresponse: APIData)=>{
+  console.log(apiresponse);
+  this._apiService.getProducts().subscribe((apiresponse: APIData)=>{
+    this.source.load( apiresponse.data);
+  });
+});
+});
+
+
+
+
+
+
   }
-  onAdded(event) : void{
-    console.log('yksh')
-  }
-  
+  // onAdded() : void{
+  //
+  //     this._apiService.createProduct(Product : Product).subscribe((apiresponse: APIData)=>{
+  //       console.log(1);
+  //     });
+  //
+  //
+  //
+  //
+  // }
 
 
   onDeleteConfirm(event): void {
@@ -86,4 +134,5 @@ export class StoreComponent implements OnInit {
       event.confirm.reject();
     }
   }
+
 }

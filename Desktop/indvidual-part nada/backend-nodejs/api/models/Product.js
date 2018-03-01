@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 
 var productSchema = mongoose.Schema({
+  id: {
+    type: Number
+  },
   name: {
     type: String,
     required: true,
@@ -15,8 +18,12 @@ var productSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
+
+  seller:{
+    type: String
+  },
   updatedAt: Date
-},{collection: 'Products'}
+  },{collection: 'Products'}
 );
 
 mongoose.model('Product', productSchema);

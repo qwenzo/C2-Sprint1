@@ -2,8 +2,14 @@ var mongoose = require('mongoose'),
 moment = require('moment'),
 Product = mongoose.model('Product'),
 Validations = require('../utils/Validations');
-  
 
+var incr = (function () {
+    var i = 6;
+
+    return function () {
+        return i++;
+    }
+})();
 module.exports.getProduct = function(req, res, next) {
   if (!Validations.isObjectId(req.params.productId)) {
     return res.status(422).json({
@@ -83,8 +89,10 @@ module.exports.createProduct = function(req, res, next) {
     });
   }
   // Security Check
+  req.body.id = incr();
   delete req.body.createdAt;
   delete req.body.updatedAt;
+//  req.body.seller = localStorage.getItem("current")
 
   Product.create(req.body, function(err, product) {
     if (err) {
@@ -119,8 +127,9 @@ module.exports.updateProduct = function(req, res, next) {
     });
   }
   // Security Check
-  delete req.body.createdAt;
+  req.body.createdAt;
   req.body.updatedAt = moment().toDate();
+
 
   Product.findByIdAndUpdate(
     req.params.productId,
