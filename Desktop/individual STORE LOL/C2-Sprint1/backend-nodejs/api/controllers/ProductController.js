@@ -74,7 +74,9 @@ module.exports.createProduct = function(req, res, next) {
     req.body.name &&
     Validations.isString(req.body.name) &&
     req.body.price &&
-    Validations.isNumber(req.body.price);
+    Validations.isNumber(req.body.price) &&
+    req.body.id &&
+    Validations.isNumber(req.body.id);
   if (!valid) {
     return res.status(422).json({
       err: null,
