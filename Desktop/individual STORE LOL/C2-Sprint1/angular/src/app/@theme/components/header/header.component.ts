@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
   logout(){
     console.log(localStorage.getItem('currentUser'));
     localStorage.setItem('currentUser',JSON.stringify('null'));
-    localStorage.setItem('currentUser',JSON.stringify('null'));
+    localStorage.setItem('type',JSON.stringify('null'));
     this.router.navigate(['dashboard'], { relativeTo: this.route });
     window.location.reload();
     

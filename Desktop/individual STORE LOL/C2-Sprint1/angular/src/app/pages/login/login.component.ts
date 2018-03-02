@@ -33,8 +33,7 @@ export class LoginComponent implements OnInit {
     if(this.username != null && this.password != null){
       this._apiService.login({ username: this.username, password: this.password }).subscribe((apiresponse: APIData)=>{
         this.loginMessage = apiresponse.msg;
-        if( apiresponse.msg.includes('Successful') ){ //D2a 7aga mo2kta
-          //localStorage.setItem('currentUser',JSON.stringify('null'));
+        if( apiresponse.msg.includes('Successful') ){ 
           localStorage.setItem('currentUser',JSON.stringify(this.username));
           document.getElementById("log").style.visibility='visible';
           if( apiresponse.msg.includes('user') ){
