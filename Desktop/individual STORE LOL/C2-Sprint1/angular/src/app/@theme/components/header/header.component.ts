@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { UserService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               private userService: UserService,
-              private analyticsService: AnalyticsService) {
+              private analyticsService: AnalyticsService ,private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -46,4 +46,14 @@ export class HeaderComponent implements OnInit {
   startSearch() {
     this.analyticsService.trackEvent('startSearch');
   }
+  logout(){
+    console.log(localStorage.getItem('currentUser'));
+    localStorage.setItem('currentUser',JSON.stringify('null'));
+    localStorage.setItem('currentUser',JSON.stringify('null'));
+    this.router.navigate(['dashboard'], { relativeTo: this.route });
+    window.location.reload();
+    
+  }
+
+
 }

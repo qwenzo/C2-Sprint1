@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
+
 //import { SmartTableService } from '../../../@core/data/smart-table.service';
 import { APIService } from '../../app_services/api.service';
 import { APIData  , Product } from '../../app_services/models/api.data.structure'
@@ -15,10 +16,45 @@ import { APIData  , Product } from '../../app_services/models/api.data.structure
 export class StoreComponent implements OnInit {
 
   ngOnInit() {
+    let user: string = localStorage.getItem('type');
+    if(JSON.parse(user)=== "user"){
+      console.log('1');
+      this.settings.actions={
+        add: false,
+      edit: false,
+       delete: false,
+       columnTitle: 'Search',
+      };
+    }
+    else if(JSON.parse(user) === "admin"){
+      console.log('3');
+      this.settings.actions={
+        add: true,
+      edit: true,
+       delete: true,
+       columnTitle: 'Search',
+      };
+     
+    }
+    else if(JSON.parse(user) === "manager"){
+      console.log('2');
+      this.settings.actions={
+        add: true,
+      edit: true,
+       delete: false,
+       columnTitle: 'Search',
+      };
+     
+    }
   }
 
   settings = {
+    // mode: 'external',
+    editor: {
+      config: false
+    },
     add: {
+      inputClass: "ID",
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
@@ -33,16 +69,18 @@ export class StoreComponent implements OnInit {
       confirmDelete: true,
     },
     actions: {
-       add: true,
-       edit: true,
-       delete: true,
-      //columnTitle: 'Actions'
+      add: false,
+      edit: false,
+       delete: false,
+      columnTitle: 'Search'
     },
     columns: {
-      // id: {
-      //   title: 'ID',
-      //   type: 'number',
-      // },
+      id: {
+        title: 'ID',
+        type: 'number',
+        editable: false,
+        addable: false,
+      },
       name: {
         title: 'Name',
         type: 'string',
@@ -54,15 +92,21 @@ export class StoreComponent implements OnInit {
       createdAt: {
         title: 'CreatedAt',
         type: 'string',
+        editable: false,
+        addable: false,
       },
       updatedAt: {
         title: 'UpdatedAt',
         type: 'string',
+        editable: false,
+        addable: false,
       },
-      // seller: {
-      //   title: 'Seller',
-      //   type: 'string',
-      // },
+      seller: {
+        title: 'Seller',
+        type: 'string',
+        editable: false,
+        addable: false,
+      },
     },
   };
 
@@ -71,7 +115,6 @@ export class StoreComponent implements OnInit {
   constructor(private apiServ:APIService){
     this.apiServ.getProducts().subscribe((apires : APIData) =>{
       this.source.load(apires.data);
-
     });
 
     this.source.onAdded().subscribe((product:  Product) =>{
