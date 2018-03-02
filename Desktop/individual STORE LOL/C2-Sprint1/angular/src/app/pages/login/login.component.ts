@@ -36,8 +36,8 @@ export class LoginComponent implements OnInit {
         if( apiresponse.msg.includes('Successful') ){ //D2a 7aga mo2kta
           //localStorage.setItem('currentUser',JSON.stringify('null'));
           localStorage.setItem('currentUser',JSON.stringify(this.username));
+          document.getElementById("log").style.visibility='visible';
           if( apiresponse.msg.includes('user') ){
-          
             localStorage.setItem('type',JSON.stringify('user'));
           }
           else if( apiresponse.msg.includes('admin') ){

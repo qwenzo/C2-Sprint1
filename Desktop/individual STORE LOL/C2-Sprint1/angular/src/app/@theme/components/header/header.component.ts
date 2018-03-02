@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+   // document.getElementById("log").style.display="none";
     this.userService.getUsers()
       .subscribe((users: any) => this.user = users.hesham);
   }
