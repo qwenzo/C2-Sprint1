@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   private username;
   private password;
   private loginMessage;
-  //private type;
+  private type;
   private settings;
   //@ViewChild(StoreComponent)  store: StoreComponent;
 
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
 
   loginClick(){
     if(this.username != null && this.password != null){
-      this._apiService.login({ username: this.username, password: this.password }).subscribe((apiresponse: APIData)=>{
+      this._apiService.login({ username: this.username, password: this.password,type:this.type }).subscribe((apiresponse: APIData)=>{
         this.loginMessage = apiresponse.msg;
         if( apiresponse.msg.includes('Successful') ){ 
           localStorage.setItem('currentUser',JSON.stringify(this.username));
